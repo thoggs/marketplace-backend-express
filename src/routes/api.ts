@@ -1,8 +1,10 @@
 import { Router } from 'express';
-import usersRouter from "./users";
+import userRouter from "./users";
+import productRouter from "./product";
 
 const apiRouter = Router();
 
-apiRouter.use('/users', usersRouter);
+apiRouter.use('/users', userRouter);
+apiRouter.use('/products', productRouter);
 
 export default apiRouter;

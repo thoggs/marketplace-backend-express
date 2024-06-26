@@ -1,0 +1,41 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: zhavia-products-backend-db
+    environment:
+      MYSQL_ROOT_PASSWORD: codigo1234
+      MYSQL_DATABASE: zhavia_core
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: codigo1234
+    ports:
+      - "3306:3306"
+    networks:
+      - zhavia-products-network
+    restart: unless-stopped
+
+  express:
+    container_name: zhavia-products-backend-app
+    build: .
+    ports:
+      - "8083:80"
+    environment:
+      NODE_ENV: production
+      DB_NAME: zhavia_core
+      DB_USER: admin
+      DB_PASS: codigo1234
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DIALECT: mysql
+      JWT_SECRET: default_jwt_secret
+      JWT_ISSUER: default_issuer
+      JWT_AUDIENCE: default_audience
+      JWT_EXPIRES_IN: 3600s
+    networks:
+      - zhavia-products-network
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+networks:
+  zhavia-products-network:
+    driver: bridge

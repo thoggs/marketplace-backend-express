@@ -1,25 +1,39 @@
 import { NextFunction, Request, Response } from 'express';
-import db from '../models';
+import db from '../../models';
 import { StatusCodes } from 'http-status-codes';
-import { Op } from 'sequelize';
-import ValidationErrorBuilder from "../utils/ValidationErrorBuilder";
+import ValidationErrorBuilder from "../../../utils/ValidationErrorBuilder";
+import usePagination from "../../hooks/usePagination";
 
 const productController = {
   index: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { term } = req.query;
-      const condition = term
-        ? {
-          [Op.or]: [
-            { name: { [Op.like]: `%${term}%` } },
-            { description: { [Op.like]: `%${term}%` } },
-            { category: { [Op.like]: `%${term}%` } },
-          ],
-        }
-        : {};
+      const { page, pageSize, offset, condition } = usePagination(req, [ 'name', 'description', 'category' ]);
 
-      const products = await db.Product.findAll({ where: condition });
-      res.status(StatusCodes.OK).json(products);
+      const { count, rows } = await db.Product.findAndCountAll({
+        where: condition,
+        offset,
+        limit: pageSize
+      });
+
+      res.status(StatusCodes.OK).send({
+        data: rows,
+        pagination: {
+          currentPage: page,
+          totalPages: Math.ceil(count / pageSize),
+          totalItems: count,
+          itemsPerPage: pageSize,
+          links: {
+            first: `/products?page=1&pageSize=${pageSize}`,
+            last: `/products?page=${Math.ceil(count / pageSize)}&pageSize=${pageSize}`,
+            prev: page > 1 ? `/products?page=${page - 1}&pageSize=${pageSize}` : null,
+            next: page < Math.ceil(count / pageSize) ? `/products?page=${page + 1}&pageSize=${pageSize}` : null
+          }
+        },
+        success: true,
+        metadata: {
+          message: []
+        },
+      });
     } catch (error) {
       next(error);
     }

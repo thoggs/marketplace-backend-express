@@ -1,32 +1,45 @@
 import { NextFunction, Request, Response } from 'express';
-import db from '../models';
+import db from '../../models';
 import { StatusCodes } from 'http-status-codes';
-import { Op } from 'sequelize';
-import ValidationErrorBuilder from "../utils/ValidationErrorBuilder";
+import ValidationErrorBuilder from "../../../utils/ValidationErrorBuilder";
+import usePagination from "../../hooks/usePagination";
 
 const userController = {
   index: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { term } = req.body;
-      const condition = term
-        ? {
-          [Op.or]: [
-            { firstName: { [Op.like]: `%${term}%` } },
-            { lastName: { [Op.like]: `%${term}%` } },
-            { email: { [Op.like]: `%${term}%` } },
-          ],
-        }
-        : {};
+      const { page, pageSize, offset, condition } = usePagination(req, [ 'firstName', 'lastName', 'email' ]);
 
-      const users = await db.User.findAll({ where: condition });
+      const { count, rows } = await db.User.findAndCountAll({
+        where: condition,
+        offset,
+        limit: pageSize
+      });
 
-      const usersWithoutPassword = users.map((user: { toJSON: () => any; }) => {
+      const usersWithoutPassword = rows.map((user: { toJSON: () => any; }) => {
         const userJson = user.toJSON();
         delete userJson.password;
         return userJson;
       });
 
-      res.status(StatusCodes.OK).send(usersWithoutPassword);
+      res.status(StatusCodes.OK).send({
+        data: usersWithoutPassword,
+        pagination: {
+          currentPage: page,
+          totalPages: Math.ceil(count / pageSize),
+          totalItems: count,
+          itemsPerPage: pageSize,
+          links: {
+            first: `/users?page=1&pageSize=${pageSize}`,
+            last: `/users?page=${Math.ceil(count / pageSize)}&pageSize=${pageSize}`,
+            prev: page > 1 ? `/users?page=${page - 1}&pageSize=${pageSize}` : null,
+            next: page < Math.ceil(count / pageSize) ? `/users?page=${page + 1}&pageSize=${pageSize}` : null
+          }
+        },
+        success: true,
+        metadata: {
+          message: []
+        },
+      });
     } catch (error) {
       next(error);
     }

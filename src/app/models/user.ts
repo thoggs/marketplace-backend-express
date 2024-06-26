@@ -1,6 +1,6 @@
 import { CreationOptional, DataTypes, Model, Optional } from 'sequelize';
 import bcrypt from 'bcryptjs';
-import { sequelize } from "../config/database";
+import { sequelize } from "../../config/database";
 
 type UserAttributes = {
   id: string;

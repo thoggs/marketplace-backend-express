@@ -4,11 +4,11 @@ import cors from 'cors';
 import apiRouter from './routes/api';
 import healthRouter from './routes/health';
 import authRouter from './routes/auth';
-import responseFormatter from "./middleware/responseFormatter";
-import errorHandler from "./middleware/errorHandler";
+import responseFormatter from "./app/http/middleware/responseFormatter";
+import errorHandler from "./app/http/middleware/errorHandler";
 import passport from "./config/passport";
-import authenticateJwt from "./middleware/auth";
-import AppBootstrap from "./config/appBootstrap";
+import authenticateJwt from "./app/http/middleware/auth";
+import App from "./bootstrap/app";
 
 dotenv.config();
 
@@ -25,6 +25,6 @@ app.use('/auth', authRouter);
 app.use('/', healthRouter);
 app.use(errorHandler);
 
-const appBootstrap = new AppBootstrap(app, port);
+const appBootstrap = new App(app, port);
 
 appBootstrap.initialize().then();

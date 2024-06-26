@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ResponseDto } from '../dto/responseDto';
+import { ResponseDto } from '../../../dto/responseDto';
 
 const responseFormatter = (_req: Request, res: Response, next: NextFunction) => {
   const oldJson = res.json.bind(res);

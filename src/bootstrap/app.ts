@@ -1,7 +1,7 @@
 import express from 'express';
-import { initializeDatabase } from "./database";
+import { initializeDatabase } from "../config/database";
 
-class AppBootstrap {
+class App {
   private app: express.Application;
   private readonly port: number | string;
 
@@ -27,4 +27,4 @@ class AppBootstrap {
   }
 }
 
-export default AppBootstrap;
+export default App;

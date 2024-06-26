@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 import User from './user';
-import { sequelize } from "../config/database";
+import { sequelize } from "../../config/database";
 import Product from './product';
 
 const db: { [key: string]: any } = {

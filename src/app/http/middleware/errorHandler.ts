@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { ResponseDto } from '../dto/responseDto';
+import { ResponseDto } from '../../../dto/responseDto';
 import { StatusCodes } from 'http-status-codes';
-import formatSequelizeError from "../utils/formatSequelizeError";
+import formatSequelizeError from "../../../utils/formatSequelizeError";
 
 const errorHandler = (err: any, _req: Request, res: Response, _next: NextFunction) => {
   const formattedErrors = formatSequelizeError(err);

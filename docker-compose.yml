@@ -29,7 +29,7 @@ services:
       JWT_SECRET: default_jwt_secret
       JWT_ISSUER: default_issuer
       JWT_AUDIENCE: default_audience
-      JWT_EXPIRES_IN: 3600s
+      JWT_EXPIRES_IN: 2592000s
     networks:
       - zhavia-marketplace-network
     depends_on:

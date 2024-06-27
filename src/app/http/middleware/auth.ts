@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
-import ValidationErrorBuilder from "../../../utils/ValidationErrorBuilder";
+import ValidationErrorBuilder from "../../../utils/validationErrorBuilder";
 import User from "../../models/user";
 
 const authenticateJwt = (req: Request, res: Response, next: NextFunction) => {

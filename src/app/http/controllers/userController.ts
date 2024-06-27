@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import db from '../../models';
 import { StatusCodes } from 'http-status-codes';
-import ValidationErrorBuilder from "../../../utils/ValidationErrorBuilder";
+import ValidationErrorBuilder from "../../../utils/validationErrorBuilder";
 import usePagination from "../../hooks/usePagination";
 
 const userController = {
@@ -47,6 +47,7 @@ const userController = {
 
   create: async (req: Request, res: Response, next: NextFunction) => {
     try {
+      if ('id' in req.body) delete req.body.id;
       const user = await db.User.create(req.body);
       res.status(StatusCodes.CREATED).send(user);
     } catch (error) {

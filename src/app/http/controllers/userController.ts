@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import db from '../../models';
 import { StatusCodes } from 'http-status-codes';
-import ValidationErrorBuilder from "../../../utils/validationErrorBuilder";
 import usePagination from "../../hooks/usePagination";
+import ValidationErrorBuilder from "../../../utils/validationErrorBuilder";
 
 const userController = {
   index: async (req: Request, res: Response, next: NextFunction) => {

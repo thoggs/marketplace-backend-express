@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import ValidationErrorBuilder from '../../../utils/ValidationErrorBuilder';
+import ValidationErrorBuilder from '../../../utils/validationErrorBuilder';
 import bcrypt from 'bcryptjs';
 import User from "../../models/user";
 import generateAccessToken from "../../../utils/generateAccessToken";

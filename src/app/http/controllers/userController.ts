@@ -3,6 +3,8 @@ import db from '../../models';
 import { StatusCodes } from 'http-status-codes';
 import usePagination from "../../hooks/usePagination";
 import ValidationErrorBuilder from "../../../utils/validationErrorBuilder";
+import bcrypt from "bcryptjs";
+import User from "../../models/user";
 
 const userController = {
   index: async (req: Request, res: Response, next: NextFunction) => {
@@ -49,7 +51,10 @@ const userController = {
   create: async (req: Request, res: Response, next: NextFunction) => {
     try {
       if ('id' in req.body) delete req.body.id;
-      const user = await db.User.create(req.body);
+
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      const user = await User.create({ ...req.body, password: hashedPassword });
+
       res.status(StatusCodes.CREATED).send(user);
     } catch (error) {
       next(error);
@@ -80,7 +85,8 @@ const userController = {
         return next(error);
       }
 
-      const [ updated ] = await db.User.update(req.body, {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      const [ updated ] = await db.User.update({ ...req.body, password: hashedPassword }, {
         where: { id: req.params.id },
       });
 

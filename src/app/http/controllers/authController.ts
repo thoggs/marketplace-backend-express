@@ -23,7 +23,6 @@ const authController = {
 
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const user = await User.create({ ...req.body, password: hashedPassword });
-      const accessToken = generateAccessToken(user);
 
       const userWithoutPassword = {
         id: user.id,
@@ -34,7 +33,6 @@ const authController = {
 
       res.status(StatusCodes.CREATED).json({
         user: userWithoutPassword,
-        accessToken,
       });
     } catch (error) {
       console.error('Error in signup:', error);

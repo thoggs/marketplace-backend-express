@@ -95,8 +95,8 @@ npx sequelize-cli db:seed:all
 
 ### **Auth** (Autenticação)
 
-- **POST /auth/login**: autentica um usuário e retorna um token de acesso.
-- **POST /auth/signup**: registra um novo usuário.
+- **POST /auth/signin**: autentica um usuário e retorna um token de acesso.
+- **POST /auth/signup**: registra um novo usuário e retorna um token de acesso.
 - **POST /github-signin**: autentica um usuário com o GitHub e retorna um token de acesso.
 
 ### **Users** (Usuários)

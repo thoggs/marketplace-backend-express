@@ -7,10 +7,11 @@ import usePagination from "../../hooks/usePagination";
 const productController = {
   index: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { page, pageSize, offset, condition } = usePagination(req, [ 'name', 'description', 'category' ]);
+      const { page, pageSize, offset, condition, order } = usePagination(req, [ 'name', 'description', 'category' ]);
 
       const { count, rows } = await db.Product.findAndCountAll({
         where: condition,
+        order,
         offset,
         limit: pageSize
       });

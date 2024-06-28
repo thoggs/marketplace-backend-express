@@ -7,10 +7,11 @@ import ValidationErrorBuilder from "../../../utils/validationErrorBuilder";
 const userController = {
   index: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { page, pageSize, offset, condition } = usePagination(req, [ 'firstName', 'lastName', 'email' ]);
+      const { page, pageSize, offset, condition, order } = usePagination(req, [ 'firstName', 'lastName', 'email' ]);
 
       const { count, rows } = await db.User.findAndCountAll({
         where: condition,
+        order,
         offset,
         limit: pageSize
       });

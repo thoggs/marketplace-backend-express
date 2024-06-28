@@ -82,7 +82,7 @@ git clone https://github.com/thoggs/zhavia-marketplace-backend.git && cd zhavia-
 Dentro da pasta do projeto, execute o comando abaixo para criar as tabelas no banco de dados e popular.
 
 ```bash
-npx sequelize-cli db:seed:all
+yarn && npx sequelize-cli db:seed:all
 ```
 
 ### 3. Acesse o Projeto:

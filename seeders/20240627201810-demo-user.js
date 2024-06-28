@@ -1,5 +1,6 @@
 'use strict';
 const bcrypt = require('bcryptjs');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -8,7 +9,7 @@ module.exports = {
 
     for (let i = 1; i <= 100; i++) {
       users.push({
-        id: Sequelize.fn('UUID'),
+        id: uuidv4(),
         firstName: `User${ i }`,
         lastName: `Test${ i }`,
         email: `user${ i }@example.com`,

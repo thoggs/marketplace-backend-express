@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "admin",
+    "password": "codigo1234",
+    "database": "zhavia_core",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "admin",
+    "password": "codigo1234",
+    "database": "zhavia_core",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "admin",
+    "password": "codigo1234",
+    "database": "zhavia_core",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}

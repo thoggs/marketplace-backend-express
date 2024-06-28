@@ -62,7 +62,7 @@ project-root/
 ## Pré-requisitos
 
 - Node.js (v14 ou superior)
-- npm ou yarn(Recomendado v4+, instruções de instalação logo abaixo)
+- npm ou yarn (Recomendado v4+, instruções de instalação logo abaixo)
 - Banco de dados MySQL
 - Docker (apenas para inicialização rápida)
 - Docker Compose (apenas para inicialização rápida)

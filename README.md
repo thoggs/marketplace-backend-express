@@ -111,7 +111,7 @@ npx sequelize-cli db:seed:all
           usuários por página.
 
     - **searchTerm**: termo de pesquisa para filtrar resultados.
-        - Será usado um `LIKE` no banco de dados pelo termo informado.
+        - Será executado `LIKE` no banco de dados pelo termo informado.
         - Exemplo: `http://localhost:8083/api/users?searchTerm=John` filtra resultados contendo "John".
     - **sorting**: ordena os resultados por uma coluna específica.
         - Exemplo: `http://localhost:8083/api/users?sorting=sorting=[{"id":"firstName","desc":false}]`
@@ -136,7 +136,7 @@ npx sequelize-cli db:seed:all
           produtos por página.
 
     - **searchTerm**: termo de pesquisa para filtrar resultados.
-        - Será usado um `LIKE` no banco de dados pelo termo informado.
+        - Será executado um `LIKE` no banco de dados pelo termo informado.
         - Exemplo: `http://localhost:8083/api/products?searchTerm=John` filtra resultados contendo "John".
     - **sorting**: ordena os resultados por uma coluna específica.
         - Exemplo: `http://localhost:8083/api/products?sorting=sorting=[{"id":"name","desc":false}]`

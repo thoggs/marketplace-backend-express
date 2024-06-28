@@ -64,6 +64,8 @@ project-root/
 - Node.js (v14 ou superior)
 - npm ou yarn
 - Banco de dados MySQL
+- Docker (apenas para inicialização rápida)
+- Docker Compose (apenas para inicialização rápida)
 
 ## Inicialização Rápida
 
@@ -72,7 +74,7 @@ Subir o projeto com Docker:
 ### 1. Clone o repositório e entre na pasta do projeto:
 
 ```bash
-git clone https://github.com/thoggs/movie-vault-backend.git && cd movie-vault-backend && docker-compose up -d
+git clone https://github.com/thoggs/zhavia-marketplace-backend.git && cd zhavia-marketplace-backend && docker-compose up -d
 ```
 
 ### 2. Execute as Migrations e Seeders:
@@ -165,11 +167,25 @@ yarn install
 Crie ou edite o arquivo `.env` na raiz do projeto e adicione suas configurações do banco de dados:
 
 ```env
-DB_NAME=nome_do_banco
-DB_USER=seu_usuario
-DB_PASS=sua_senha
-DB_HOST=127.0.0.1
-PORT=3000
+# Application configuration
+PORT=8083
+
+# Database configuration
+DB_NAME=nome_do_banco_de_dados
+DB_USER=usuario_do_banco_de_dados
+DB_PASS=senha_do_banco_de_dados
+DB_HOST=url_do_banco_de_dados
+DB_PORT=porta_do_banco_de_dados
+DB_DIALECT=dialeto_do_banco_de_dados
+
+# JWT configuration
+JWT_SECRET=jwt_senha_secreta
+JWT_ISSUER=jwt_issuer
+JWT_AUDIENCE=jwt_audience
+JWT_EXPIRES_IN=jwt_tempo_de_expiracao
+
+# Github configuration
+GITHUB_API_URL=https://api.github.com/user
 ```
 
 ### Passo 5: Rodar o Projeto

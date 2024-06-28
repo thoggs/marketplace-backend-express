@@ -15,31 +15,41 @@ projeto, modelos básicos e endpoints para manipulação de dados em um banco de
 ```
 project-root/
 ├── src/
+│   ├── app/
+│   │   ├── hooks/
+│   │   │   └── usePagination.ts
+│   │   ├── http/
+│   │   │   ├── controllers/
+│   │   │   │   ├── authController.ts
+│   │   │   │   ├── healthController.ts
+│   │   │   │   ├── productController.ts
+│   │   │   │   └── userController.ts
+│   │   │   ├── middleware/
+│   │   │   │   ├── auth.ts
+│   │   │   │   ├── errorHandler.ts
+│   │   │   │   └── responseFormatter.ts
+│   │   ├── models/
+│   │   │   ├── index.ts
+│   │   │   ├── product.ts
+│   │   │   └── user.ts
+│   ├── bootstrap/
+│   │   └── app.ts
 │   ├── config/
 │   │   ├── database.ts
 │   │   └── passport.ts
-│   ├── controllers/
-│   │   ├── authController.ts
-│   │   ├── healthController.ts
-│   │   └── userController.ts
 │   ├── dto/
 │   │   ├── errorCodes.ts
 │   │   └── responseDto.ts
-│   ├── middleware/
-│   │   ├── auth.ts
-│   │   ├── errorHandler.ts
-│   │   └── responseFormatter.ts
-│   ├── models/
-│   │   ├── index.ts
-│   │   └── user.ts
 │   ├── routes/
 │   │   ├── api.ts
 │   │   ├── auth.ts
-│   │   └── health.ts
+│   │   ├── health.ts
+│   │   ├── product.ts
+│   │   └── users.ts
 │   ├── utils/
 │   │   ├── formatSequelizeError.ts
 │   │   ├── generateAccessToken.ts
-│   │   ├── ValidationErrorBuilder.ts
+│   │   ├── validationErrorBuilder.ts
 │   │   └── index.ts
 │   ├── index.ts
 │   ├── .env
@@ -54,6 +64,8 @@ project-root/
 - Node.js (v14 ou superior)
 - npm ou yarn
 - Banco de dados MySQL
+- Docker (apenas para inicialização rápida)
+- Docker Compose (apenas para inicialização rápida)
 
 ## Inicialização Rápida
 
@@ -62,14 +74,18 @@ Subir o projeto com Docker:
 ### 1. Clone o repositório e entre na pasta do projeto:
 
 ```bash
-git clone https://github.com/thoggs/movie-vault-backend.git && cd movie-vault-backend && docker-compose up -d
+git clone https://github.com/thoggs/zhavia-marketplace-backend.git && cd zhavia-marketplace-backend && docker-compose up -d
 ```
 
 ### 2. Execute as Migrations e Seeders:
 
+Dentro da pasta do projeto, execute o comando abaixo para criar as tabelas no banco de dados e popular.
+
 ```bash
-docker-compose exec app npx sequelize-cli db:migrate && docker-compose exec app npx sequelize-cli db:seed:all
+npx sequelize-cli db:seed:all
 ```
+
+### 3. Acesse o Projeto:
 
 > O projeto estará disponível em http://localhost:8083/api/{endpoint}
 
@@ -77,25 +93,28 @@ docker-compose exec app npx sequelize-cli db:migrate && docker-compose exec app 
 
 ### Endpoints:
 
-### 1. **Auth** (Autenticação)
+### **Auth** (Autenticação)
 
 - **POST /auth/login**: autentica um usuário e retorna um token de acesso.
-- **POST /auth/signup**: registra um novo usuário e retorna um token de acesso.
+- **POST /auth/signup**: registra um novo usuário.
+- **POST /github-signin**: autentica um usuário com o GitHub e retorna um token de acesso.
 
-### 2. **Users** (Usuários)
+### **Users** (Usuários)
 
 - **GET /api/users**: retorna uma lista paginada de todos os usuarios registrados. É possível personalizar a
   página e a quantidade de resultados exibidos na lista adicionando os seguintes parâmetros à URL:
     - **page**: número da página a ser exibida.
         - Exemplo: `http://localhost:8083/api/users?page=2` exibe a segunda página de resultados.
 
-    - **perPage**: quantidade de resultados exibidos por página.
+    - **pageSize**: quantidade de resultados exibidos por página.
         - Exemplo: `http://localhost:8083/api/users?perPage=5&page=3` exibe a terceira página com até 5
           usuários por página.
 
     - **searchTerm**: termo de pesquisa para filtrar resultados.
-        - Será usado um `LIKE` no banco de dados pelo termo informado.
+        - Será executado `LIKE` no banco de dados pelo termo informado.
         - Exemplo: `http://localhost:8083/api/users?searchTerm=John` filtra resultados contendo "John".
+    - **sorting**: ordena os resultados por uma coluna específica.
+        - Exemplo: `http://localhost:8083/api/users?sorting=sorting=[{"id":"firstName","desc":false}]`
 
 - **GET /api/users/{id}**: retorna informações detalhadas sobre um usuário específico.
 
@@ -104,6 +123,27 @@ docker-compose exec app npx sequelize-cli db:migrate && docker-compose exec app 
 - **PUT /api/users/{id}**: atualiza as informações de um usuário existente.
 
 - **DELETE /api/users/{id}**: exclui um registro de usuário existente.
+
+### **Products** (Produtos)
+
+- **GET /api/products**: retorna uma lista paginada de todos os produtos registrados. É possível personalizar a
+  página e a quantidade de resultados exibidos na lista adicionando os seguintes parâmetros à URL:
+    - **page**: número da página a ser exibida.
+        - Exemplo: `http://localhost:8083/api/products?page=2` exibe a segunda página de resultados.
+
+    - **pageSize**: quantidade de resultados exibidos por página.
+        - Exemplo: `http://localhost:8083/api/products?perPage=5&page=3` exibe a terceira página com até 5
+          produtos por página.
+
+    - **searchTerm**: termo de pesquisa para filtrar resultados.
+        - Será executado um `LIKE` no banco de dados pelo termo informado.
+        - Exemplo: `http://localhost:8083/api/products?searchTerm=John` filtra resultados contendo "John".
+    - **sorting**: ordena os resultados por uma coluna específica.
+        - Exemplo: `http://localhost:8083/api/products?sorting=sorting=[{"id":"name","desc":false}]`
+
+### **Health** (Status)
+
+- **GET /health**: retorna o status da aplicação.
 
 ## Configuração para Desenvolvimento
 
@@ -127,11 +167,25 @@ yarn install
 Crie ou edite o arquivo `.env` na raiz do projeto e adicione suas configurações do banco de dados:
 
 ```env
-DB_NAME=nome_do_banco
-DB_USER=seu_usuario
-DB_PASS=sua_senha
-DB_HOST=127.0.0.1
-PORT=3000
+# Application configuration
+PORT=8083
+
+# Database configuration
+DB_NAME=nome_do_banco_de_dados
+DB_USER=usuario_do_banco_de_dados
+DB_PASS=senha_do_banco_de_dados
+DB_HOST=url_do_banco_de_dados
+DB_PORT=porta_do_banco_de_dados
+DB_DIALECT=dialeto_do_banco_de_dados
+
+# JWT configuration
+JWT_SECRET=jwt_senha_secreta
+JWT_ISSUER=jwt_issuer
+JWT_AUDIENCE=jwt_audience
+JWT_EXPIRES_IN=jwt_tempo_de_expiracao
+
+# Github configuration
+GITHUB_API_URL=https://api.github.com/user
 ```
 
 ### Passo 5: Rodar o Projeto
@@ -160,6 +214,11 @@ node dist/index.js
 - **Express**: Framework para Node.js
 - **Sequelize**: ORM para Node.js
 - **MySQL**: Banco de dados relacional
+- **passport-jwt**: Estratégia de autenticação JWT para Passport
+- **Bcrypt.js**: Biblioteca para criptografia de senhas
+- **Axios**: Cliente HTTP para Node.js
+- **GitHub OAuth**: Autenticação OAuth com GitHub
+- **Docker**: Plataforma de contêineres
 
 ## License
 

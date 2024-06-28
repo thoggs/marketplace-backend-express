@@ -158,8 +158,7 @@ yarn && npx sequelize-cli db:seed:all
 ### Passo 1: Clonar o Repositório
 
 ```bash
-git clone https://github.com/thoggs/movie-vault-backend.git
-cd movie-vault-backend
+git clone https://github.com/thoggs/zhavia-marketplace-backend.git && cd zhavia-marketplace-backend
 ```
 
 ### Passo 2: Instalar Dependências
@@ -222,6 +221,7 @@ node dist/index.js
 - **Express**: Framework para Node.js
 - **Sequelize**: ORM para Node.js
 - **MySQL**: Banco de dados relacional
+- **Webpack**: Empacotador de módulos
 - **passport-jwt**: Estratégia de autenticação JWT para Passport
 - **Bcrypt.js**: Biblioteca para criptografia de senhas
 - **Axios**: Cliente HTTP para Node.js
